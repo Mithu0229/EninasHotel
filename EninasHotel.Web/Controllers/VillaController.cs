@@ -1,10 +1,12 @@
 ﻿using EninasHotel.Application.Common.Interfaces;
 using EninasHotel.Domain.Entities;
 using EninasHotel.Infrastructure.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EninasHotel.Web.Controllers
 {
+    [Authorize]
     public class VillaController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

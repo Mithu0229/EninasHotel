@@ -1,11 +1,14 @@
 ﻿using EninasHotel.Application.Common.Interfaces;
+using EninasHotel.Application.Common.Utility;
 using EninasHotel.Domain.Entities;
 using EninasHotel.Web.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace EninasHotel.Web.Controllers
 {
+    [Authorize(Roles = SD.Role_Admin)]
     public class AmenityController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
