@@ -10,7 +10,10 @@ namespace EninasHotel.Application.Common.Interfaces
     {
         IVillaRepository Villa { get; }
         IVillaNumberRepository VillaNumber { get; }
+        IBookingRepository Booking { get; }
         IAmenityRepository Amenity { get; }
+
+        IApplicationUserRepository User { get; }
         void Save();
     }
 }
