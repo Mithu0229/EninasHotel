@@ -10,7 +10,6 @@ namespace EninasHotel.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -21,7 +20,6 @@ namespace EninasHotel.Web.Controllers
             SignInManager<ApplicationUser> signInManager)
         {
             _roleManager = roleManager;
-            _unitOfWork = unitOfWork;
             _userManager = userManager;
             _signInManager = signInManager;
         }
