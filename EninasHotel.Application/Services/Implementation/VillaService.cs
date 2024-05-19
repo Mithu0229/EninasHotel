@@ -126,5 +126,17 @@ namespace EninasHotel.Application.Services.Implementation
             _unitOfWork.Villa.Update(villa);
             _unitOfWork.Save();
         }
+
+        public bool IsVillaAvailableByDate(int villaId, int nights, DateOnly checkInDate)
+        {
+            var villaNumbersList = _unitOfWork.VillaNumber.GetAll().ToList();
+            var bookedVillas = _unitOfWork.Booking.GetAll(u => u.Status == SD.StatusApproved ||
+            u.Status == SD.StatusCheckedIn).ToList();
+
+            int roomAvailable = SD.VillaRoomsAvailable_Count
+                (villaId, villaNumbersList, checkInDate, nights, bookedVillas);
+
+            return roomAvailable > 0;
+        }
     }
 }
