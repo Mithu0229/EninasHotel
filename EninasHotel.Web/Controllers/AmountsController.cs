@@ -43,7 +43,7 @@ namespace EninasHotel.Web.Controllers
                 if (ModelState.IsValid)
                 {
                     _amountService.CreateAmount(obj);
-                    TempData["success"] = "The villa has been created successfully.";
+                    TempData["success"] = "The amount has been created successfully.";
                     return RedirectToAction(nameof(Index));
                 }
             }
