@@ -1,0 +1,80 @@
+﻿@model Amount
+
+<div class="w-100 card border-0 p-4">
+    <div class="card-header bg-danger bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Delete Transaction</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body border p-4">
+        <form method="post" asp-action="Delete" class="row">
+            <input asp-for="Id" hidden />
+
+            <div class="col-12 col-md-10">
+                <div class="p-3">
+
+                    <div class="form-floating py-1 col-12">
+                        <select asp-for="TransactionType" class="form-control" disabled>
+                            <option value="">-- Select Transaction Type --</option>
+                            <option value="1" selected="@(@Model.TransactionType == 1)">Cash In</option>
+                            <option value="2" selected="@(@Model.TransactionType == 2)">Cash Out</option>
+                        </select>
+                        <label asp-for="TransactionType" class="ms-2"></label>
+                    </div>
+
+                    <div class="form-floating py-1 col-12">
+                        <input asp-for="CashIn" disabled class="form-control border shadow" />
+                        <label asp-for="CashIn" class="ms-2"></label>
+                    </div>
+
+                    <div class="form-floating py-1 col-12">
+                        <input asp-for="CashOut" disabled class="form-control border shadow" />
+                        <label asp-for="CashOut" class="ms-2"></label>
+                    </div>
+
+                    <div class="form-floating py-1 col-12">
+                        <input asp-for="Charge" disabled class="form-control border shadow" />
+                        <label asp-for="Charge" class="ms-2"></label>
+                    </div>
+
+                    <div class="form-floating py-1 col-12">
+                        <input asp-for="Commission" disabled class="form-control border shadow" />
+                        <label asp-for="Commission" class="ms-2"></label>
+                    </div>
+
+                    <div class="form-floating py-1 col-12">
+                        <input asp-for="TransactionDate" type="date" disabled class="form-control border shadow" />
+                        <label asp-for="TransactionDate" class="ms-2"></label>
+                    </div>
+
+                    <div class="form-floating py-1 col-12">
+                        <textarea asp-for="Notes" disabled class="form-control border shadow"></textarea>
+                        <label asp-for="Notes" class="ms-2"></label>
+                    </div>
+
+                    <div class="row pt-2">
+                        <div class="col-6 col-md-3">
+                            <button type="submit" class="btn btn-danger w-100">
+                                <i class="bi bi-trash-fill"></i> Delete
+                            </button>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <a asp-controller="Amounts" asp-action="Index" class="btn btn-secondary w-100">
+                                <i class="bi bi-x-circle"></i> Cancel
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

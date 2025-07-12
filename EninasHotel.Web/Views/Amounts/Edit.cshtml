@@ -1,0 +1,137 @@
+﻿@model Amount
+
+<div class="w-100 card border-0 p-4">
+    <div class="card-header bg-warning bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Edit Transaction</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body border p-4">
+        <form method="post" asp-action="Edit" class="row">
+
+            <div class="p-3">
+                <input type="hidden" asp-for="Id" />
+
+                <div class="form-floating py-1 col-12">
+                    <select asp-for="TransactionType" class="form-control" id="TransactionType">
+                        <option value="">-- Select Transaction Type --</option>
+                        <option value="1">Cash In</option>
+                        <option value="2">Cash Out</option>
+                    </select>
+                    <label asp-for="TransactionType" class="ms-2"></label>
+                    <span asp-validation-for="TransactionType" class="text-danger"></span>
+                </div>
+
+                <div id="cashInDiv" class="form-floating py-1 col-12">
+                    <input asp-for="CashIn" type="number" class="form-control border shadow" id="CashIn" />
+                    <label asp-for="CashIn" class="ms-2"></label>
+                    <span asp-validation-for="CashIn" class="text-danger"></span>
+                </div>
+
+                <div id="cashOutDiv" class="form-floating py-1 col-12">
+                    <input asp-for="CashOut" type="number" class="form-control border shadow" id="CashOut" />
+                    <label asp-for="CashOut" class="ms-2"></label>
+                    <span asp-validation-for="CashOut" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating py-1 col-12">
+                    <input asp-for="Charge" type="number" class="form-control border shadow" />
+                    <label asp-for="Charge" class="ms-2"></label>
+                    <span asp-validation-for="Charge" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating py-1 col-12">
+                    <input asp-for="Commission" type="number" class="form-control border shadow" />
+                    <label asp-for="Commission" class="ms-2"></label>
+                    <span asp-validation-for="Commission" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating py-1 col-12">
+                    <input asp-for="TransactionDate" type="date" class="form-control border shadow" />
+                    <label asp-for="TransactionDate" class="ms-2 "></label>
+                    <span asp-validation-for="TransactionDate" class="text-danger"></span>
+                </div>
+
+                <div class="form-floating py-1 col-12">
+                    <textarea asp-for="Notes" type="text" class="form-control border shadow"></textarea>
+                    <label asp-for="Notes" class="ms-2 "></label>
+                    <span asp-validation-for="Notes" class="text-danger"></span>
+                </div>
+
+                <div class="row pt-2">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" id="updateButton" class="btn btn-warning w-100">
+                            <i class="bi bi-pencil-square"></i> Update
+                        </button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-controller="Amounts" asp-action="Index" class="btn btn-secondary w-100">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    <script>
+        $(document).ready(function () {
+
+            function toggleCashFields() {
+                var transactionType = $("#TransactionType").val();
+                if (transactionType == "1") {
+                    $("#cashInDiv").show();
+                    $("#cashOutDiv").hide();
+                    $("#CashOut").val(0);
+                }
+                else if (transactionType == "2") {
+                    $("#cashOutDiv").show();
+                    $("#cashInDiv").hide();
+                    $("#CashIn").val(0);
+                }
+                else {
+                    $("#cashInDiv").hide();
+                    $("#cashOutDiv").hide();
+                    $("#CashIn").val(0);
+                    $("#CashOut").val(0);
+                }
+                validateForm();
+            }
+
+            function validateForm() {
+                var transactionType = $("#TransactionType").val();
+                var isValid = false;
+
+                if (transactionType == "1") {
+                    var cashIn = parseFloat($("#CashIn").val()) || 0;
+                    isValid = cashIn > 0;
+                }
+                else if (transactionType == "2") {
+                    var cashOut = parseFloat($("#CashOut").val()) || 0;
+                    isValid = cashOut > 0;
+                }
+
+                $("#updateButton").prop("disabled", !isValid);
+            }
+
+            // Run on page load
+            toggleCashFields();
+
+            // Event bindings
+            $("#TransactionType").change(function () {
+                toggleCashFields();
+            });
+
+            $("#CashIn, #CashOut").on("input", function () {
+                validateForm();
+            });
+        });
+    </script>
+}

@@ -9,6 +9,7 @@ namespace EninasHotel.Application.Common.Interfaces
     public interface IUnitOfWork
     {
         IVillaRepository Villa { get; }
+        IAmountRepository Amount { get; }
         IVillaNumberRepository VillaNumber { get; }
         IBookingRepository Booking { get; }
         IAmenityRepository Amenity { get; }

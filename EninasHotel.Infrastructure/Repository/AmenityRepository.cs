@@ -1,6 +1,8 @@
 ﻿using EninasHotel.Application.Common.Interfaces;
 using EninasHotel.Domain.Entities;
 using EninasHotel.Infrastructure.Data;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,5 +24,6 @@ namespace EninasHotel.Infrastructure.Repository
         {
             _db.Amenities.Update(entity);
         }
+
     }
 }
