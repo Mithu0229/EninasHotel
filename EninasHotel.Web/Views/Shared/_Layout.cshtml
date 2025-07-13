@@ -17,16 +17,16 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm  border-bottom box-shadow">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/resort.png" style="width:35px"/></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+               @*  <a class="navbar-brand" asp-area="" asp-controller="DashboardACM" asp-action="Index"><img src="~/images/resort.png" style="width:35px" /></a>
+                *@ <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
+                       @*  <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="DashboardACM" asp-action="Index">Home</a>
+                        </li> *@
                         @if (User.IsInRole(SD.Role_Admin))
                         {
                             <li class="nav-item dropdown">
@@ -50,11 +50,25 @@
                                 </ul>
                             </li>
                         }
+                        else if (User.IsInRole(SD.Role_User))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Amount Management
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="Amounts" asp-action="Index">Amount</a>
+                                    </li>
+                                   
+                                </ul>
+                            </li>
+                        }
                         else
                         {
-                            <li class="nav-item">
+                           @*  <li class="nav-item">
                                 <a class="nav-link" asp-controller="Booking" asp-action="Index">Manage Bookings</a>
-                            </li>
+                            </li> *@
                         }
                     </ul>
                     <partial name="_LoginPartial" />

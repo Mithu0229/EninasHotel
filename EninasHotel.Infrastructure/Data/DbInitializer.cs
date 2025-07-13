@@ -54,6 +54,23 @@ namespace EninasHotel.Infrastructure.Data
                     ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "admin@sa.com");
                     _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
                 }
+
+                if (!_roleManager.RoleExistsAsync(SD.Role_User).GetAwaiter().GetResult())
+                {
+                    _roleManager.CreateAsync(new IdentityRole(SD.Role_User)).Wait();
+                    _userManager.CreateAsync(new ApplicationUser
+                    {
+                        UserName = "user@sa.com",
+                        Email = "user@sa.com",
+                        Name = "User",
+                        NormalizedUserName = "USER@sa.COM",
+                        NormalizedEmail = "USER@sa.COM",
+                        PhoneNumber = "1112223333",
+                    }, "User123*").GetAwaiter().GetResult();
+
+                    ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "user@sa.com");
+                    _userManager.AddToRoleAsync(user, SD.Role_User).GetAwaiter().GetResult();
+                }
             }
             catch (Exception e)
             {

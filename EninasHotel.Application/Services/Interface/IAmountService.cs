@@ -5,6 +5,7 @@ namespace EninasHotel.Application.Services.Interface
     public interface IAmountService
     {
         IEnumerable<Amount> GetAllAmounts();
+        IQueryable<Amount> GetQueryAmounts();
         Amount GetAmountById(Guid id);
         void CreateAmount(Amount amount);
         void UpdateAmount(Amount amount);

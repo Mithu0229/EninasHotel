@@ -15,4 +15,13 @@ namespace EninasHotel.Application.Services.Interface
         Task<PieChartDto> GetBookingPieChartData();
         Task<LineChartDto> GetMemberAndBookingLineChartData();
     }
+
+    public interface IDashboardACMService
+    {
+        Task<RadialBarChartDto> GetTotalCashInRadialChartData();
+        Task<RadialBarChartDto> GetCashOutChartData();
+        Task<RadialBarChartDto> GetRevenueChartData();
+        Task<PieChartDto> GetBookingPieChartData();
+        Task<LineChartDto> GetMemberAndBookingLineChartData();
+    }
 }

@@ -1,0 +1,129 @@
+﻿@model IEnumerable<Amount>
+
+<div class="w-100 card border-0 p-4">
+    <div class="card-header bg-success bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Transaction report</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <a class="btn btn-danger w-100"
+           asp-action="PrintList"
+           asp-controller="Amounts"
+           asp-route-fromDate="@ViewBag.FromDate"
+           asp-route-toDate="@ViewBag.ToDate"
+           target="_blank">
+            <i class="bi bi-file-earmark-pdf"></i> Print PDF
+        </a>
+    </div>
+
+    <div class="card-body border p-4">
+
+        <form method="get" asp-controller="Amounts" asp-action="SearchIndex" id="searchForm">
+            <div class="row pb-3">
+                <div class="col-md-3">
+                    <input type="date" name="fromDate" id="fromDate" class="form-control"
+                           value="@ViewBag.FromDate" />
+                </div>
+                <div class="col-md-3">
+                    <input type="date" name="toDate" id="toDate" class="form-control"
+                           value="@ViewBag.ToDate" />
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary w-100" id="searchBtn">
+                        <i class="bi bi-search"></i> Search
+                    </button>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-secondary w-100" id="resetBtn">
+                        <i class="bi bi-arrow-repeat"></i> Reset
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        @* <form method="get" asp-controller="Amounts" asp-action="SearchIndex">
+            <div class="row pb-3">
+                <div class="col-md-3">
+                    <input type="date" name="fromDate" class="form-control" placeholder="From Date" />
+                </div>
+                <div class="col-md-3">
+                    <input type="date" name="toDate" class="form-control" placeholder="To Date" />
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="bi bi-search"></i> Search
+                    </button>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-secondary w-100" id="resetBtn">
+                        <i class="bi bi-arrow-repeat"></i> Reset
+                    </button>
+                </div>
+                
+            </div>
+        </form>
+ *@
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Transaction Date</th>
+                    <th>Cash In</th>
+                    <th>Cash Out</th>
+                    <th>Charge</th>
+                    <th>Commission</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                    <td>@item.TransactionDate.ToString("dd-MMM-yyyy")</td>
+                    <td>@item.CashIn</td>
+                    <td>@item.CashOut</td>
+                    <td>@item.Charge</td>
+                    <td>@item.Commission</td>
+                    
+                </tr>
+                                }
+            </tbody>
+            <tfoot>
+                <tr class="fw-bold">
+                    <td>Total</td>
+                    <td>@ViewBag.TotalCashIn</td>
+                    <td>@ViewBag.TotalCashOut</td>
+                    <td>@ViewBag.TotalCharge</td>
+                    <td>@ViewBag.TotalCommission</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Validate on search button click
+            $("#searchBtn").click(function (e) {
+                var fromDate = $("#fromDate").val();
+                var toDate = $("#toDate").val();
+
+                if (!fromDate || !toDate) {
+                    e.preventDefault();
+                    //alert("Please select both From Date and To Date before searching.");
+                }
+            });
+
+            // Reset button logic
+            $("#resetBtn").click(function () {
+                $("#fromDate").val('');
+                $("#toDate").val('');
+                // Reload without query string
+                window.location.href = '@Url.Action("SearchIndex", "Amounts")';
+            });
+        });
+    </script>
+}
+

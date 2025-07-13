@@ -16,6 +16,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Rotativa.AspNetCore" Version="1.4.0" />
     <PackageReference Include="Stripe.net" Version="44.5.0" />
     <PackageReference Include="Syncfusion.DocIO.Net.Core" Version="25.2.3" />
     <PackageReference Include="Syncfusion.DocIORenderer.Net.Core" Version="25.2.3" />
@@ -30,6 +31,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\images\VillaImage\" />
+    <Folder Include="wwwroot\Rotativa\" />
   </ItemGroup>
 
 </Project>

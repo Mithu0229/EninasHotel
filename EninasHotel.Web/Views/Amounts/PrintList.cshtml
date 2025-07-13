@@ -1,0 +1,47 @@
+﻿@model AmountListViewModel
+
+<h2 style="text-align:center;">Transaction List</h2>
+<p>
+    @if (Model.FromDate != null && Model.ToDate != null)
+    {
+        <span>
+            Date: @Model.FromDate?.ToString("dd-MMM-yyyy") to @Model.ToDate?.ToString("dd-MMM-yyyy")
+        </span>
+    }
+</p>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Transaction Date</th>
+            <th>Cash In</th>
+            <th>Cash Out</th>
+            <th>Charge</th>
+            <th>Commission</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Amounts)
+        {
+            <tr>
+                <td>@item.TransactionDate.ToString("dd-MMM-yyyy")</td>
+                <td>@item.CashIn</td>
+                <td>@item.CashOut</td>
+                <td>@item.Charge</td>
+                <td>@item.Commission</td>
+
+            </tr>
+        }
+       
+    </tbody>
+    <tfoot>
+        <tr>
+            <td>Total</td>
+            <td>@Model.TotalCashIn</td>
+            <td>@Model.TotalCashOut</td>
+            <td>@Model.TotalCharge</td>
+            <td>@Model.TotalCommission</td>
+        </tr>
+    </tfoot>
+    
+</table>

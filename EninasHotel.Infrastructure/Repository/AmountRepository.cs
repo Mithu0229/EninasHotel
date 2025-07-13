@@ -23,5 +23,10 @@ namespace EninasHotel.Infrastructure.Repository
             _db.Amounts.Update(entity);
         }
 
+        public IQueryable<Amount> GetQueryAmounts()
+        {
+            return _db.Amounts.AsQueryable();
+        }
+
     }
 }

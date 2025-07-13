@@ -56,6 +56,11 @@ namespace EninasHotel.Application.Services.Implementation
             return _unitOfWork.Amount.GetAll();
         }
 
+        public IQueryable<Amount> GetQueryAmounts()
+        {
+            return _unitOfWork.Amount.GetQueryAmounts();
+        }
+
         public Amount GetAmountById(Guid id)
         {
             return _unitOfWork.Amount.Get(u => u.Id == id);

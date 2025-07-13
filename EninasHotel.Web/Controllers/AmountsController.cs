@@ -1,11 +1,14 @@
-﻿using EninasHotel.Application.Services.Interface;
+﻿using EninasHotel.Application.Common.Utility;
+using EninasHotel.Application.Services.Interface;
 using EninasHotel.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Rotativa.AspNetCore;
 
 namespace EninasHotel.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = SD.Role_User)]
     public class AmountsController : Controller
     {
         private readonly IAmountService _amountService;
@@ -19,6 +22,77 @@ namespace EninasHotel.Web.Controllers
         {
             var amounts = _amountService.GetAllAmounts();
             return View(amounts);
+        }
+
+        public async Task<IActionResult> SearchIndex(DateTime? fromDate, DateTime? toDate)
+        {
+            ViewBag.FromDate = fromDate;
+            ViewBag.ToDate = toDate;
+            var amounts = _amountService.GetQueryAmounts();
+
+            if (fromDate.HasValue)
+            {
+                amounts = amounts.Where(a => a.TransactionDate >= fromDate.Value);
+            }
+
+            if (toDate.HasValue)
+            {
+                amounts = amounts.Where(a => a.TransactionDate <= toDate.Value);
+            }
+
+            var result = await amounts.OrderByDescending(a => a.TransactionDate).ToListAsync();
+
+            var totalCashIn = await amounts.SumAsync(a => (decimal?)a.CashIn) ?? 0;
+            var totalCashOut = await amounts.SumAsync(a => (decimal?)a.CashOut) ?? 0;
+            var totalCharge = await amounts.SumAsync(a => (decimal?)a.Charge) ?? 0;
+            var totalCommission = await amounts.SumAsync(a => (decimal?)a.Commission) ?? 0;
+
+            ViewBag.TotalCashIn = totalCashIn;
+            ViewBag.TotalCashOut = totalCashOut;
+            ViewBag.TotalCharge = totalCharge;
+            ViewBag.TotalCommission = totalCommission;
+
+            return View(result);
+        }
+
+        public async Task<IActionResult> PrintList(DateTime? fromDate, DateTime? toDate)
+        {
+            var amounts = _amountService.GetQueryAmounts();
+
+            if (fromDate.HasValue)
+            {
+                amounts = amounts.Where(a => a.TransactionDate >= fromDate.Value);
+            }
+
+            if (toDate.HasValue)
+            {
+                amounts = amounts.Where(a => a.TransactionDate <= toDate.Value);
+            }
+
+            var amountsList = await amounts.OrderByDescending(a => a.TransactionDate).ToListAsync();
+
+            var totalCashIn = await amounts.SumAsync(a => a.CashIn);
+            var totalCashOut = await amounts.SumAsync(a => a.CashOut);
+            var totalCharge = await amounts.SumAsync(a => a.Charge);
+            var totalCommission = await amounts.SumAsync(a => a.Commission);
+            var viewModel = new AmountListViewModel
+            {
+                Amounts = amountsList,
+                TotalCashIn = totalCashIn,
+                TotalCashOut = totalCashOut,
+                TotalCharge = totalCharge,
+                TotalCommission = totalCommission,
+                FromDate = fromDate,
+                ToDate = toDate
+
+            };
+
+            return new ViewAsPdf("PrintList", viewModel)
+            {
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
+                PageOrientation = Rotativa.AspNetCore.Options.Orientation.Portrait,
+                FileName = "TransactionList.pdf",
+            };
         }
 
         public IActionResult Create()
@@ -38,7 +112,7 @@ namespace EninasHotel.Web.Controllers
         [HttpPost]
         public IActionResult Create(Amount obj)
         {
-            if(obj != null && (obj.CashIn > 0 || obj.CashOut > 0))
+            if (obj != null && (obj.CashIn > 0 || obj.CashOut > 0))
             {
                 if (ModelState.IsValid)
                 {
@@ -47,7 +121,7 @@ namespace EninasHotel.Web.Controllers
                     return RedirectToAction(nameof(Index));
                 }
             }
-             TempData["error"] = "Please enter CashIn/CashOut.";
+            TempData["error"] = "Please enter CashIn/CashOut.";
             return View();
         }
 

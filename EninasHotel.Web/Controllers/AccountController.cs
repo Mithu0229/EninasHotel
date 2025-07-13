@@ -53,6 +53,9 @@ namespace EninasHotel.Web.Controllers
                     if (await _userManager.IsInRoleAsync(user, SD.Role_Admin))
                     {
                         return RedirectToAction("Index", "Dashboard");
+                    }else if (await _userManager.IsInRoleAsync(user, SD.Role_User))
+                    {
+                        return RedirectToAction("Index", "DashboardACM");
                     }
                     else
                     {
@@ -155,7 +158,8 @@ namespace EninasHotel.Web.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            //return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         public IActionResult AccessDenied()

@@ -32,4 +32,15 @@ namespace EninasHotel.Domain.Entities
         public bool IsActive { get; set; }
         public Char? Status { get; set; }
     }
+
+    public class AmountListViewModel
+    {
+        public List<Amount> Amounts { get; set; }
+        public decimal TotalCashIn { get; set; }
+        public decimal TotalCashOut { get; set; }
+        public decimal TotalCharge { get; set; }
+        public decimal TotalCommission { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
+    }
 }
